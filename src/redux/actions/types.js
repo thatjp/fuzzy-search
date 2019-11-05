@@ -1,0 +1,1 @@
+export const CURRENT_SEARCH = 'CURRENT_SEARCH';
