@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import Label from '../Label/Label';
+
 import InputStyles from './InputStyles';
 
 
@@ -12,9 +14,10 @@ const Input = ({
   onKeyDown,
 }) => (
   <InputStyles>
-    <label htmlFor="site-search">
-      Search Our Foods
-    </label>
+    <Label 
+      htmlFor="site-search"
+      text="Find some food:"
+    />
     <input
       type={type}
       name={name}

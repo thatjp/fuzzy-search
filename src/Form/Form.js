@@ -13,10 +13,17 @@ class Form extends Component {
 
   handleSubmit = (e) => {
     e.preventDefault()
-    const { wasSubmitted } = this.state;
     this.setState({
-      wasSubmitted: !wasSubmitted,
-    })
+      wasSubmitted: true,
+    }, () => this.afterSubmit())
+  }
+
+  afterSubmit = () => {
+    setTimeout(() => {
+      this.setState({
+        wasSubmitted: false
+      })
+    }, 3000);
   }
 
   render() {

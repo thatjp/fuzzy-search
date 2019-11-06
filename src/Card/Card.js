@@ -74,22 +74,20 @@ class Card extends Component {
 
   handleKeyDown = (e) => {
     const { input } = this.props;
-    const { updateCurrentSearch } = this.props;
+    const { updateCurrentSearch, updateCurrentInput } = this.props;
     if (e.key === 'ArrowUp') {
       this.setState( prevState => ({
         cursor: prevState.cursor - 1,
-        hoverStateTrue: true,
       }))
     } else if (e.key === 'ArrowDown') {
       this.setState( prevState => ({
         cursor: prevState.cursor + 1,
-        hoverStateTrue: true,
       }))
     } else if (e.key === 'Enter') {
       updateCurrentSearch(input)
+      updateCurrentInput('')
       this.setState({
         openDropDown: false,
-        hoverStateTrue: false,
         cursor: -1,
       })
     }
@@ -106,7 +104,7 @@ class Card extends Component {
       <CardStyles>
         <Title text={title}/>
         <Form
-          searchValue={input}
+          searchValue={hoverStateTrue ? input : search}
         >
           <Input
             onKeyDown={this.handleKeyDown}
