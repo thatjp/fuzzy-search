@@ -1,9 +1,11 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import Button from '../Button/Button'
 import Title from '../Title/Title'
+
 import FormStyles from './FormStyles'
 
-export default class Form extends Component {
+class Form extends Component {
   state = {
     searchValue: null,
     wasSubmitted: false
@@ -12,7 +14,6 @@ export default class Form extends Component {
   handleSubmit = (e) => {
     e.preventDefault()
     const { wasSubmitted } = this.state;
-    console.log('submitted');
     this.setState({
       wasSubmitted: !wasSubmitted,
     })
@@ -38,3 +39,9 @@ export default class Form extends Component {
     )
   }
 }
+
+Form.propTypes = {
+  searchValue: PropTypes.string.isRequired,
+}
+
+export default Form;

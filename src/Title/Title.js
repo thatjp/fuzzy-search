@@ -1,12 +1,16 @@
-import React from 'react'
-import TitleStyles from './TitleStyles'
+import React from 'react';
+import PropTypes from 'prop-types';
 
-const Title = ({text}) => {
-  return (
-    <TitleStyles>
-      {text}
-    </TitleStyles>
-  )
-}
+import TitleStyles from './TitleStyles';
 
-export default Title
+const Title = ({ text }) => (
+  <TitleStyles>
+    {text}
+  </TitleStyles>
+);
+
+Title.protoTypes = {
+  text: PropTypes.string.isRequired,
+};
+
+export default Title;

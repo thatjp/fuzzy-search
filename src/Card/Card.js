@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux'
 import Fuse from 'fuse.js'
 
@@ -127,6 +128,13 @@ class Card extends Component {
       </CardStyles>
     )
   }
+}
+
+Card.propTypes = {
+  search: PropTypes.string.isRequired,
+  input: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired,
+  data: PropTypes.array.isRequired,
 }
 
 const mapStateToProps = state => ({

@@ -15,7 +15,7 @@ const ButtonStyles = styled.button`
 	padding: 13px 30px;
 	text-decoration: none;
 	margin-top: 30px;
-	
+
 	:focus {outline:0;}
 
   :hover {
