@@ -12,9 +12,8 @@ function App() {
     <Provider store={store}>
       <AppStyles className="App">
         <Card 
-          data={data} 
-          name="fuseSearch"
-          title="Fuse.js Search"
+          data={data}
+          title="Fuzzy Food Search"
         />
       </AppStyles>
     </Provider>

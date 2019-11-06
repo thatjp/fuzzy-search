@@ -1,28 +1,37 @@
-import React from 'react'
-import InputStyles from './InputStyles'
+import React from 'react';
+import PropTypes from 'prop-types';
 
-import Label from '../Label/Label'
+import InputStyles from './InputStyles';
+
 
 const Input = ({
   onChange,
   name,
   value,
-  type
-}) => {
-  return (
-    <InputStyles>
-      <label htmlFor="site-search"> 
-        Search Our Foods
-      </label>
-      <input 
-        type={type}
-        name={name}
-        onChange={(e) => onChange(e)}
-        value={value}
-        autoComplete="off"
-      />
-    </InputStyles>
-  )
-}
+  type,
+  onKeyDown,
+}) => (
+  <InputStyles>
+    <label htmlFor="site-search">
+      Search Our Foods
+    </label>
+    <input
+      type={type}
+      name={name}
+      onChange={e => onChange(e)}
+      value={value}
+      autoComplete="off"
+      onKeyDown={e => onKeyDown(e)}
+    />
+  </InputStyles>
+);
 
-export default Input
+Input.propTypes = {
+  onChange: PropTypes.func.isRequired,
+  name: PropTypes.string.isRequired,
+  value: PropTypes.string.isRequired,
+  type: PropTypes.string.isRequired,
+  onKeyDown: PropTypes.func.isRequired,
+};
+
+export default Input;

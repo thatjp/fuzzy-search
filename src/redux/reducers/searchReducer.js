@@ -1,7 +1,8 @@
-import { CURRENT_SEARCH } from '../actions/types';
+import { CURRENT_SEARCH, CURRENT_INPUT } from '../actions/types';
 
 const initialState = {
   currentSearch: "",
+  currentInput: "",
 };
 
 export default function (state = initialState, action) {
@@ -10,6 +11,11 @@ export default function (state = initialState, action) {
       return {
         ...state,
         currentSearch: action.payload,
+      };
+    case CURRENT_INPUT:
+      return {
+        ...state,
+        currentInput: action.payload,
       };
     default:
       return state;

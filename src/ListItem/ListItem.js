@@ -1,31 +1,42 @@
-import React from 'react'
-import ListItemStyles from './ListItemStyles'
+import React from 'react';
+import PropTypes from 'prop-types';
+import parse from 'html-react-parser';
+import ListItemStyles from './ListItemStyles';
 
-const ListItem = ({ 
-  text, 
-  key, 
-  handleOnListItemClick,
-  searchMatches
-}) => {
-
-  const formatedText = (text, indicies) => {
-    const highlightedInputValue = text.split('')
-    highlightedInputValue.splice(indicies[0], 1, '<span className="match">', text[indicies[0]], '</span>');
-    console.log(highlightedInputValue);
-    return highlightedInputValue
-  }
-
-  return (
-    <ListItemStyles key={key}>
-      <button 
+const ListItem = ({
+  text,
+  keyValue,
+  onListItemClick,
+  searchText,
+  cursor,
+  onListItemHoverEnter,
+  onListItemHoverExit,
+}) => (
+  <ListItemStyles>
+    <div
+      onMouseEnter={(e) => onListItemHoverEnter(e, text)}
+      onMouseLeave={e => onListItemHoverExit(e)}
+    >
+      <button
+        className={cursor === keyValue ? 'active' : null}
         type="button"
-        onClick={(e) => handleOnListItemClick(e)}
-        value={formatedText(text, searchMatches[0].indices[0])}
+        onClick={e => onListItemClick(e)}
+        value={text}
       >
-        {formatedText(text, searchMatches[0].indices[0])}
+        {parse(searchText)}
       </button>
-    </ListItemStyles>
-  )
-}
+    </div>
+  </ListItemStyles>
+);
+
+ListItem.propTypes = {
+  text: PropTypes.string.isRequired,
+  keyValue: PropTypes.string.isRequired,
+  onListItemClick: PropTypes.func.isRequired,
+  searchText: PropTypes.string.isRequired,
+  cursor: PropTypes.number.isRequired,
+  onListItemHoverEnter: PropTypes.func.isRequired,
+  onListItemHoverExit: PropTypes.func.isRequired,
+};
 
 export default ListItem;

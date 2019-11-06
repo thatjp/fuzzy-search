@@ -1,1 +1,2 @@
 export const CURRENT_SEARCH = 'CURRENT_SEARCH';
+export const CURRENT_INPUT = 'CURRENT_INPUT';

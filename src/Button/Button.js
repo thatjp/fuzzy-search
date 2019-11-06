@@ -2,7 +2,12 @@ import React from 'react'
 import Proptypes from 'prop-types'
 import ButtonStyles from './ButtonStyles'
 
-const Button = ({ text, onClick, type, name }) => {
+const Button = ({ 
+  text, 
+  onClick, 
+  type, 
+  name 
+}) => {
   return (
     <>
       <ButtonStyles 

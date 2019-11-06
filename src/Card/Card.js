@@ -2,13 +2,14 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import Fuse from 'fuse.js'
 
-import CardStyles from './CardStyles'
 import Title from '../Title/Title'
 import Form from '../Form/Form'
 import Input from '../Input/Input'
 import Dropdown from '../Dropdown/Dropdown'
 
-import { updateCurrentSearch, } from '../redux/actions/searchActions';
+import CardStyles from './CardStyles'
+
+import { updateCurrentSearch, updateCurrentInput} from '../redux/actions/searchActions';
 
 const fuseOptions = {
   shouldSort: true,
@@ -17,18 +18,36 @@ const fuseOptions = {
   location: 0,
   distance: 50,
   maxPatternLength: 12,
+  findAllMatches: true,
   minMatchCharLength: 1,
   keys: ["searchTerm"]
 };
 
 class Card extends Component {
-  state = {
-    inputIsFocused: false,
+  constructor(props) {
+    super(props)
+  
+    this.state = {
+      cursor: -1,
+      result: [],
+      openDropDown: false,
+      inputValue: '',
+      hoverStateTrue: false,
+    }
   }
 
-  handleOnHover = () => {
+  handleOnHoverEnter = (e, text) => {
+    const { updateCurrentInput } = this.props;
+    updateCurrentInput(text)
     this.setState({
-      inputIsFocused: true
+      hoverStateTrue: true
+    })
+  }
+
+  handleOnHoverExit = () => {
+    this.setState({
+      hoverStateTrue: false,
+      inputValue: ''
     })
   }
 
@@ -36,38 +55,72 @@ class Card extends Component {
     const { value } = e.target;
     const { updateCurrentSearch } = this.props;
     updateCurrentSearch(value)
+    this.setState({
+      openDropDown: true,
+      inputValue: ''
+    })
   }
 
   handleOnListItemClick = (e) => {
-    e.preventDefault()
-    const { updateCurrentSearch } = this.props;
     const { value } = e.target;
+    const { updateCurrentSearch } = this.props;
     updateCurrentSearch(value)
+    this.setState({
+      openDropDown: false,
+      hoverStateTrue: false,
+    })
+  }
+
+  handleKeyDown = (e) => {
+    const { input } = this.props;
+    const { updateCurrentSearch } = this.props;
+    if (e.key === 'ArrowUp') {
+      this.setState( prevState => ({
+        cursor: prevState.cursor - 1,
+        hoverStateTrue: true,
+      }))
+    } else if (e.key === 'ArrowDown') {
+      this.setState( prevState => ({
+        cursor: prevState.cursor + 1,
+        hoverStateTrue: true,
+      }))
+    } else if (e.key === 'Enter') {
+      updateCurrentSearch(input)
+      this.setState({
+        openDropDown: false,
+        hoverStateTrue: false,
+        cursor: -1,
+      })
+    }
   }
 
   render() {
-    const { data } = this.props;
+    const { openDropDown, cursor, hoverStateTrue } = this.state;
+    const { data, search, title, input } = this.props;
 
     const fuse = new Fuse(data, fuseOptions);
-    const searchResults = this.props.search ? fuse.search(this.props.search) : null;
+    const searchResults = search ? fuse.search(search) : null;
 
     return (
       <CardStyles>
-        <Title text={this.props.title}/>
+        <Title text={title}/>
         <Form
-          searchValue={this.props.search}
+          searchValue={input}
         >
           <Input
+            onKeyDown={this.handleKeyDown}
             onChange={this.handleOnChange}
-            name={this.props.name}
-            value={this.props.search ? this.props.search : this.props.search}
+            value={hoverStateTrue ? input : search}
             type="search"
           />
           {
-            searchResults && searchResults.length > 0 &&
+            openDropDown && searchResults && searchResults.length > 0 &&
             <Dropdown
               searchResults={searchResults}
-              handleOnListItemClick={(e) => this.handleOnListItemClick(e)}
+              onListItemClick={this.handleOnListItemClick}
+              onListItemHoverExit={this.handleOnHoverExit}
+              onListItemHoverEnter={this.handleOnHoverEnter}
+              cursor={cursor}
             />
           }
         </Form>
@@ -78,7 +131,7 @@ class Card extends Component {
 
 const mapStateToProps = state => ({
   search: state.search.currentSearch,
+  input: state.search.currentInput,
 });
 
-
-export default connect(mapStateToProps, { updateCurrentSearch })(Card);
+export default connect(mapStateToProps, { updateCurrentSearch, updateCurrentInput })(Card);

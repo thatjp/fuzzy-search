@@ -3,6 +3,7 @@ import styled from 'styled-components';
 const DropdownStyles = styled.div`
   position: absolute;
   display: block;
+  border-bottom: 1px solid #d9dbde;
   height: 200px;
   width: 30%;
   overflow-y: scroll;
@@ -14,6 +15,7 @@ const DropdownStyles = styled.div`
   
   ul {
     padding: 0;
+    margin: 0;
   }
 `;
 

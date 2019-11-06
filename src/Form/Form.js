@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
 import Button from '../Button/Button'
+import Title from '../Title/Title'
+import FormStyles from './FormStyles'
 
 export default class Form extends Component {
   state = {
@@ -9,17 +11,21 @@ export default class Form extends Component {
 
   handleSubmit = (e) => {
     e.preventDefault()
+    const { wasSubmitted } = this.state;
+    console.log('submitted');
     this.setState({
-      wasSubmitted: !this.state.wasSubmitted,
+      wasSubmitted: !wasSubmitted,
     })
   }
 
   render() {
-    const { wasSubmitted, searchValue } = this.state;
+    const { wasSubmitted } = this.state;
+    const { searchValue } = this.props;
+
     return (
-      <div>
+      <FormStyles>
         <form 
-          onSubmit={this.handleSubmit}
+          onSubmit={e => this.handleSubmit(e)}
         >
           {this.props.children}
           <Button 
@@ -27,15 +33,8 @@ export default class Form extends Component {
             type="submit"
           />
         </form>
-        {
-          wasSubmitted && searchValue === null &&
-          <h2>Your search was empty</h2>
-        }
-        {
-          wasSubmitted && searchValue !== null &&
-          <h2>You searched {this.props.searchValue}</h2>
-        }
-      </div>
+        {wasSubmitted ? <Title text={`You searched for ${searchValue}`}/> : null}
+      </FormStyles>
     )
   }
 }

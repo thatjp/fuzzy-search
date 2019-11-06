@@ -1,4 +1,4 @@
-import { CURRENT_SEARCH } from './types';
+import { CURRENT_SEARCH, CURRENT_INPUT } from './types';
 
 export const updateCurrentSearch = userInputs => (dispatch) => {
   dispatch({
@@ -7,3 +7,9 @@ export const updateCurrentSearch = userInputs => (dispatch) => {
   });
 };
 
+export const updateCurrentInput = userInputs => (dispatch) => {
+  dispatch({
+    type: CURRENT_INPUT,
+    payload: userInputs,
+  });
+};
